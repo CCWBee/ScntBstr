@@ -56,12 +56,18 @@
     }
     .nav {
       display: flex;
-      justify-content: space-between;
       margin-top: 1rem;
     }
     .nav button {
       width: auto;
       flex: 0 0 auto;
+    }
+    .nav button + button {
+      margin-left: auto;
+    }
+    .nav button:only-child {
+      margin-left: auto;
+      margin-right: auto;
     }
     #progress {
       height: 0.5rem;
@@ -158,6 +164,12 @@
     button:hover {
       background: #347dcf;
     }
+    button[type="submit"],
+    #downloadDocxBtn {
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+    }
     #output,
     .instructions {
       margin-top: 2rem;
@@ -201,7 +213,6 @@
       <label for="mainDate">Statement Date</label>
       <input type="date" id="mainDate"> <button type="button" onclick="setToday('mainDate')">Today</button>
       <div class="nav">
-        <span></span>
         <button type="button" class="next">Next</button>
       </div>
     </section>
@@ -299,7 +310,6 @@
         <button type="submit">Generate Update</button>
         <div class="nav">
           <button type="button" class="back">Back</button>
-          <span></span>
         </div>
       </section>
 
@@ -317,7 +327,6 @@
         <button id="downloadDocxBtn" style="margin-top:1rem;">Download as .docx</button>
         <div class="nav">
           <button type="button" class="back">Back</button>
-          <span></span>
         </div>
       </section>
 
