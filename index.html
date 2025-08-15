@@ -28,6 +28,7 @@
       max-width: 700px;
       width: 100%;
       border:1px solid var(--primary-border);
+      overflow:hidden;
     }
     label { display:block; margin-top:1rem; font-weight:bold; color: var(--text); }
     input,select{ padding:0.5rem; margin-top:0.5rem; border-radius:5px; border:1px solid #ccc; }
@@ -54,6 +55,12 @@
     .type-date,.today-btn{ margin-left:0.5rem; }
     button{ margin-top:1rem; padding:0.75rem 1.5rem; background:var(--primary); color:white; border:none; border-radius:8px; cursor:pointer; transition:background 0.3s; }
     button:hover{ background:#347dcf; }
+    .progress-bar{background:#eee;height:8px;border-radius:4px;overflow:hidden;margin-bottom:1rem;}
+    #progressBar{background:var(--primary);height:100%;width:0;transition:width 0.3s;}
+    #progressText{text-align:center;margin-bottom:1rem;}
+    .steps{display:flex;transition:transform 0.3s;}
+    .step{flex:0 0 100%;}
+    .navigation{display:flex;justify-content:space-between;margin-top:1rem;}
     #output{ margin-top:2rem; white-space:pre-wrap; background:#fff; padding:1rem; border-radius:10px; border:1px solid var(--primary-border); text-align:left; }
     .tag-container{ display:flex; flex-wrap:wrap; gap:0.5rem; margin-top:0.5rem; }
     .tag{ background:var(--primary); color:white; padding:0.3rem 0.6rem; border-radius:3px; display:flex; align-items:center; }
@@ -90,92 +97,114 @@
          alt="Sanction Bustr Logo"
          >
       </h1>
-  <form id="sanctionsForm">
-    <label for="mainDate">Statement Date</label>
-    <input type="date" id="mainDate">   <button type="button" onclick="setToday('mainDate')">Today</button>
+    <form id="sanctionsForm">
+      <div class="progress-bar">
+        <div id="progressBar"></div>
+      </div>
+      <p id="progressText">Step 1 of 4</p>
+      <div class="steps">
+        <section class="step">
+          <label for="mainDate">Statement Date</label>
+          <input type="date" id="mainDate">
+          <button type="button" class="today-btn" onclick="setToday('mainDate')">Today</button>
+          <div class="navigation">
+            <button type="button" class="next">Next</button>
+          </div>
+        </section>
+        <section class="step">
+          <!-- Add or remove regimes below -->
+          <label for="regimeSelect">Select Regime</label>
+          <select id="regimeSelect">
+            <option disabled selected>Select a regime</option>
 
-<!-- Add or remove regimes below -->
+            <option>Afghanistan</option>
+            <option>Belarus</option>
+            <option>Bosnia and Herzegovina</option>
+            <option>Central African Republic</option>
+            <option>Chemical Weapons</option>
+            <option>Counter-terrorism (CT)</option>
+            <option>International counter-terrorism (ICT)</option>
+            <option>Cyber-attacks</option>
+            <option>Democratic Republic of the Congo</option>
+            <option>Global Human Rights</option>
+            <option>Global Irregular Migration and Trafficking in Persons</option>
+            <option>Haiti - Historic bonds</option>
+            <option>Haiti - Peace and security</option>
+            <option>Iran - Nuclear</option>
+            <option>Iran - Financial Sanctions</option>
+            <option>Iraq</option>
+            <option>ISIL (Da'esh) and Al-Qaida</option>
+            <option>Lebanon - Sovereignty</option>
+            <option>Lebanon - Assassination</option>
+            <option>Libya</option>
+            <option>Mali</option>
+            <option>Myanmar</option>
+            <option>Nicaragua</option>
+            <option>North Korea</option>
+            <option>Republic of Guinea</option>
+            <option>Republic of Guinea-Bissau</option>
+            <option>Russian Federation</option>
+            <option>Serbia and Montenegro</option>
+            <option>Somalia</option>
+            <option>South Sudan</option>
+            <option>Sudan</option>
+            <option>Syria - General</option>
+            <option>Syria - Cultural property</option>
+            <option>Eastern Mediterranean Drilling</option>
+            <option>Global Anti-Corruption</option>
+            <option>Venezuela</option>
+            <option>Yemen</option>
+            <option>Zimbabwe</option>
+            <!-- Fill blanks between brackets to add regimes, e.g. "<option>Elbonia Human Rights</option>" -->
+            <option></option>
+            <option></option>
+            <option></option>
+            <option></option>
 
-    <label for="regimeSelect">Select Regime</label>
-    <select id="regimeSelect">
-      <option disabled selected>Select a regime</option>
-
-      <option>Afghanistan</option>
-      <option>Belarus</option>
-      <option>Bosnia and Herzegovina</option>
-      <option>Central African Republic</option>
-      <option>Chemical Weapons</option>
-      <option>Counter-terrorism (CT)</option>
-      <option>International counter-terrorism (ICT)</option>
-      <option>Cyber-attacks</option>
-      <option>Democratic Republic of the Congo</option>
-      <option>Global Human Rights</option>
-      <option>Global Irregular Migration and Trafficking in Persons</option>
-      <option>Haiti - Historic bonds</option>
-      <option>Haiti - Peace and security</option>
-      <option>Iran - Nuclear</option>
-      <option>Iran - Financial Sanctions</option>
-      <option>Iraq</option>
-      <option>ISIL (Da'esh) and Al-Qaida</option>
-      <option>Lebanon - Sovereignty</option>
-      <option>Lebanon - Assassination</option>
-      <option>Libya</option>
-      <option>Mali</option>
-      <option>Myanmar</option>
-      <option>Nicaragua</option>
-      <option>North Korea</option>
-      <option>Republic of Guinea</option>
-      <option>Republic of Guinea-Bissau</option>
-      <option>Russian Federation</option>
-      <option>Serbia and Montenegro</option>
-      <option>Somalia</option>
-      <option>South Sudan</option>
-      <option>Sudan</option>
-      <option>Syria - General</option>
-      <option>Syria - Cultural property</option>
-      <option>Eastern Mediterranean Drilling</option>
-      <option>Global Anti-Corruption</option>
-      <option>Venezuela</option>
-      <option>Yemen</option>
-      <option>Zimbabwe</option>
-      <!-- Fill blanks between brackets to add regimes, e.g. "<option>Elbonia Human Rights</option>" -->
-      <option></option>
-      <option></option>
-      <option></option>
-      <option></option>
-
-    </select>
-    <div class="tag-container" id="regimeTags"></div>
-
-    <label>Sanction Types (each can have its own date)</label>
-    <div class="checkbox-group">
-      <label class="type-label">
-        <input type="checkbox" name="type" value="UK Entity" onchange="toggleDateInput(this)">
-        <span class="toggle-label">UK Entity</span>
-        <input type="date" id="date-UK Entity" class="type-date" style="display:none;">
-      </label>
-      <label class="type-label">
-        <input type="checkbox" name="type" value="UK Ship" onchange="toggleDateInput(this)">
-        <span class="toggle-label">UK Ship</span>
-        <input type="date" id="date-UK Ship" class="type-date" style="display:none;">
-      </label>
-      <label class="type-label">
-        <input type="checkbox" name="type" value="UNSC" onchange="toggleDateInput(this)">
-        <span class="toggle-label">UNSC</span>
-        <input type="date" id="date-UNSC" class="type-date" style="display:none;">
-      </label>
-      <label class="type-label">
-        <input type="checkbox" name="type" value="UK Director" onchange="toggleDateInput(this)">
-        <span class="toggle-label">UK Director</span>
-        <input type="date" id="date-UK Director" class="type-date" style="display:none;">
-      </label>
-    </div>
-
-    <button
-     type="submit">Generate Update
-    </button>
-
-  </form>
+          </select>
+          <div class="tag-container" id="regimeTags"></div>
+          <div class="navigation">
+            <button type="button" class="back">Back</button>
+            <button type="button" class="next">Next</button>
+          </div>
+        </section>
+        <section class="step">
+          <label>Sanction Types (each can have its own date)</label>
+          <div class="checkbox-group">
+            <label class="type-label">
+              <input type="checkbox" name="type" value="UK Entity" onchange="toggleDateInput(this)">
+              <span class="toggle-label">UK Entity</span>
+              <input type="date" id="date-UK Entity" class="type-date" style="display:none;">
+            </label>
+            <label class="type-label">
+              <input type="checkbox" name="type" value="UK Ship" onchange="toggleDateInput(this)">
+              <span class="toggle-label">UK Ship</span>
+              <input type="date" id="date-UK Ship" class="type-date" style="display:none;">
+            </label>
+            <label class="type-label">
+              <input type="checkbox" name="type" value="UNSC" onchange="toggleDateInput(this)">
+              <span class="toggle-label">UNSC</span>
+              <input type="date" id="date-UNSC" class="type-date" style="display:none;">
+            </label>
+            <label class="type-label">
+              <input type="checkbox" name="type" value="UK Director" onchange="toggleDateInput(this)">
+              <span class="toggle-label">UK Director</span>
+              <input type="date" id="date-UK Director" class="type-date" style="display:none;">
+            </label>
+          </div>
+          <div class="navigation">
+            <button type="button" class="back">Back</button>
+            <button type="button" class="next">Next</button>
+          </div>
+        </section>
+        <section class="step">
+          <div class="navigation">
+            <button type="button" class="back">Back</button>
+            <button type="submit">Generate Update</button>
+          </div>
+        </section>
+      </div>
+    </form>
 
   <div
    id="instructions"
@@ -206,11 +235,30 @@ function toggleDateInput(cb){
     d.style.display = 'none';
   }
 }
-const regimeSelect=document.getElementById('regimeSelect'); const regimeTags=document.getElementById('regimeTags'); let regimes=[];
-regimeSelect.addEventListener('change',()=>{const v=regimeSelect.value;if(v&&!regimes.includes(v)){regimes.push(v);const tag=document.createElement('div');tag.className='tag';tag.textContent=v;const x=document.createElement('button');x.textContent='×';x.onclick=()=>{regimes=regimes.filter(r=>r!==v);regimeTags.removeChild(tag);};tag.appendChild(x);regimeTags.appendChild(tag);} regimeSelect.selectedIndex=0;});
-function gb(d){return d?new Date(d).toLocaleDateString('en-GB',{day:'2-digit',month:'long',year:'numeric'}):'[No Date]';}
+  const regimeSelect=document.getElementById('regimeSelect'); const regimeTags=document.getElementById('regimeTags'); let regimes=[];
+  regimeSelect.addEventListener('change',()=>{const v=regimeSelect.value;if(v&&!regimes.includes(v)){regimes.push(v);const tag=document.createElement('div');tag.className='tag';tag.textContent=v;const x=document.createElement('button');x.textContent='×';x.onclick=()=>{regimes=regimes.filter(r=>r!==v);regimeTags.removeChild(tag);};tag.appendChild(x);regimeTags.appendChild(tag);} regimeSelect.selectedIndex=0;});
+  function gb(d){return d?new Date(d).toLocaleDateString('en-GB',{day:'2-digit',month:'long',year:'numeric'}):'[No Date]';}
+  const stepsContainer=document.querySelector('.steps');
+  const steps=Array.from(document.querySelectorAll('.step'));
+  const progressBar=document.getElementById('progressBar');
+  const progressText=document.getElementById('progressText');
+  let currentStep=0;
+  function showStep(index){
+    currentStep=index;
+    stepsContainer.style.transform=`translateX(-${index*100}%)`;
+    progressBar.style.width=`${(index/(steps.length-1))*100}%`;
+    progressText.textContent=`Step ${index+1} of ${steps.length}`;
+  }
+  function validateStep(){
+    if(currentStep===0){return document.getElementById('mainDate').value;}
+    if(currentStep===1){return regimes.length>0;}
+    return true;
+  }
+  document.querySelectorAll('.next').forEach(btn=>btn.addEventListener('click',()=>{if(validateStep()){showStep(Math.min(currentStep+1,steps.length-1));}else{alert('Please complete required fields.');}}));
+  document.querySelectorAll('.back').forEach(btn=>btn.addEventListener('click',()=>{showStep(Math.max(currentStep-1,0));}));
+  showStep(0);
 
-document.getElementById('sanctionsForm').addEventListener('submit',e=>{
+  document.getElementById('sanctionsForm').addEventListener('submit',e=>{
   e.preventDefault();
   const statementDate=gb(document.getElementById('mainDate').value);
   const regimeText=regimes.join(', ');
