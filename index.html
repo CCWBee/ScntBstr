@@ -57,6 +57,10 @@
       justify-content: space-between;
       margin-top: 1rem;
     }
+    .nav button {
+      width: auto;
+      flex: 0 0 auto;
+    }
     #progress {
       height: 0.5rem;
       background: var(--border);
@@ -138,7 +142,7 @@
       margin-left: 0.5rem;
     }
     button {
-      padding: 1rem 2rem;
+      padding: 0.5rem 1rem;
       background: var(--primary);
       color: white;
       border: none;
@@ -146,6 +150,8 @@
       font-size: 1rem;
       cursor: pointer;
       transition: background 0.3s;
+      width: auto;
+      display: inline-block;
     }
     button:hover {
       background: #347dcf;
@@ -286,33 +292,34 @@
       </div>
     </section>
 
-    <section class="step">
-      <p>Review your selections and generate the update.</p>
-      <button type="submit">Generate Update</button>
-      <div class="nav">
-        <button type="button" class="back">Back</button>
-        <span></span>
-      </div>
-    </section>
+      <section class="step">
+        <p>Review your selections and generate the update.</p>
+        <button type="submit">Generate Update</button>
+        <div class="nav">
+          <button type="button" class="back">Back</button>
+          <span></span>
+        </div>
+      </section>
 
-  </form>
+      <section class="step">
+        <div id="instructions" class="instructions">
+          <strong>Instructions:</strong>
+          <ul>
+            <li>Select the sanction types that apply using the toggles.</li>
+            <li>Enter the effective date for each selected type, or use the "Today" button to autofill the current date.</li>
+            <li>Press "Generate Update" to create the summary text.</li>
+            <li>Review the output carefully before exporting the Word document to ensure names, dates and regimes are correct.</li>
+          </ul>
+        </div>
+        <div id="output"></div>
+        <button id="downloadDocxBtn" style="margin-top:1rem;">Download as .docx</button>
+        <div class="nav">
+          <button type="button" class="back">Back</button>
+          <span></span>
+        </div>
+      </section>
 
-  <div
-   id="instructions"
-   class="instructions"
-   >
-    <strong>
-        Instructions:
-    </strong>
-    <ul>
-      <li>Select the sanction types that apply using the toggles.</li>
-      <li>Enter the effective date for each selected type, or use the "Today" button to autofill the current date.</li>
-      <li>Press "Generate Update" to create the summary text.</li>
-      <li>Review the output carefully before exporting the Word document to ensure names, dates and regimes are correct.</li>
-    </ul>
-  </div>
-
-  <div id="output"></div>
+    </form>
 <!-- Below are the 4 sanction types, you can update the selectable array there -->
 <script>
 function setToday(id){ const t=new Date().toISOString().split('T')[0]; document.getElementById(id).value=t; }
@@ -366,11 +373,10 @@ document.getElementById('sanctionsForm').addEventListener('submit',e=>{
 
   document.getElementById('output').innerHTML=out;
   document.getElementById('instructions').classList.add('show');
+  currentStep++;
+  showStep(currentStep);
 });
 </script>
-
-
-<button id="downloadDocxBtn" style="margin-top:1rem;">Download as .docx</button>  
 
 <!-- JavaScript to enable .docx generation locally offline -->
 <script>
