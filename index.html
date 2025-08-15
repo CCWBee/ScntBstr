@@ -5,17 +5,17 @@
   <title>Sanctions Bustr</title>
   <style>
     :root {
-      --palette-bg: #eaf6ff;
-      --palette-border: #087cba75;
-      --palette-text: #087DBA;
+      --primary: #087DBA;
+      --primary-light: #eaf6ff;
+      --primary-border: #087DBA75;
     }
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: #f4f4f4;
+      background: #f4faff;
       padding: 2rem;
       text-align: center;
     }
-    h1 { color: #333; }
+    h1 { color: var(--primary); }
     form {
       background: white;
       padding: 2rem;
@@ -24,26 +24,29 @@
       text-align: left;
       max-width: 700px;
       width: 100%;
+      border:1px solid var(--primary-border);
     }
-    label { display:block; margin-top:1rem; font-weight:bold; }
+    label { display:block; margin-top:1rem; font-weight:bold; color: var(--primary); }
     input,select{ padding:0.5rem; margin-top:0.5rem; border-radius:5px; border:1px solid #ccc; }
+    input:focus,select:focus{ outline:none; border-color:var(--primary); box-shadow:0 0 0 2px var(--primary-border); }
     input[type="date"]{ width:auto; }
     .checkbox-group{ display:flex; flex-direction:column; gap:0.5rem; margin-top:0.5rem; }
-    .checkbox-group label{ font-weight:normal; }
+    .checkbox-group label{ font-weight:normal; color:inherit; }
     .type-date,.today-btn{ margin-left:0.5rem; }
-    button{ margin-top:1rem; padding:0.75rem 1.5rem; background:#087DBA; color:white; border:none; border-radius:5px; cursor:pointer; }
-    #output{ margin-top:2rem; white-space:pre-wrap; background:#fff; padding:1rem; border-radius:10px; border:1px solid #ccc; text-align:left; }
+    button{ margin-top:1rem; padding:0.75rem 1.5rem; background:var(--primary); color:white; border:none; border-radius:5px; cursor:pointer; transition:background 0.3s; }
+    button:hover{ background:#066a94; }
+    #output{ margin-top:2rem; white-space:pre-wrap; background:#fff; padding:1rem; border-radius:10px; border:1px solid var(--primary-border); text-align:left; }
     .tag-container{ display:flex; flex-wrap:wrap; gap:0.5rem; margin-top:0.5rem; }
-    .tag{ background:#087DBA; color:white; padding:0.3rem 0.6rem; border-radius:3px; display:flex; align-items:center; }
+    .tag{ background:var(--primary); color:white; padding:0.3rem 0.6rem; border-radius:3px; display:flex; align-items:center; }
     .tag button{ background:none; border:none; color:white; margin-left:0.5rem; cursor:pointer; }
     .instructions {
       margin-top:2rem;
       margin-bottom:1rem;
-      background: var(--palette-bg);
+      background: var(--primary-light);
       padding:1rem;
       border-radius:8px;
-      border:1px solid var(--palette-border);
-      color: var(--palette-text);
+      border:1px solid var(--primary-border);
+      color: var(--primary);
       text-align:left;
       display:none;
     }
