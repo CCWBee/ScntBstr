@@ -36,12 +36,14 @@
       border: 1px solid var(--border);
       box-shadow: 0 2px 4px rgba(0,0,0,0.05);
       position: relative;
-      overflow: hidden;
+      overflow-x: hidden;
+      overflow-y: auto;
       min-height: 20rem;
     }
     .step {
       display: grid;
       gap: 1.5rem;
+      justify-items: start;
       position: absolute;
       inset: 0;
       opacity: 0;
