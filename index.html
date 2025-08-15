@@ -4,6 +4,11 @@
   <meta charset="UTF-8">
   <title>Sanctions Bustr</title>
   <style>
+    :root {
+      --palette-bg: #eaf6ff;
+      --palette-border: #087cba75;
+      --palette-text: #087DBA;
+    }
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background: #f4f4f4;
@@ -31,6 +36,20 @@
     .tag-container{ display:flex; flex-wrap:wrap; gap:0.5rem; margin-top:0.5rem; }
     .tag{ background:#087DBA; color:white; padding:0.3rem 0.6rem; border-radius:3px; display:flex; align-items:center; }
     .tag button{ background:none; border:none; color:white; margin-left:0.5rem; cursor:pointer; }
+    .instructions {
+      margin-top:2rem;
+      margin-bottom:1rem;
+      background: var(--palette-bg);
+      padding:1rem;
+      border-radius:8px;
+      border:1px solid var(--palette-border);
+      color: var(--palette-text);
+      text-align:left;
+      display:none;
+    }
+    .instructions.show {
+      display:block;
+    }
   </style>
     <link rel="icon" type="image/png" href="data:image/png;base64,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" />
 </head>
@@ -123,8 +142,8 @@
   </form>
 
   <div
-   id="instructions" 
-   style="margin-top:2rem; display:none; margin-bottom:1rem; background:#eaf6ff; padding:1rem; border-radius:8px; border:1px solid #087cba75; color:#087DBA; text-align:left;"
+   id="instructions"
+   class="instructions"
    >
     <strong>
         Instructions:
@@ -185,7 +204,7 @@ document.getElementById('sanctionsForm').addEventListener('submit',e=>{
   out+=`\n<hr>\n<ol start="2">\n  <li>Set up the publication date as "Last updated" on the SharePoint tab. Please remove any "Latest news" notifications updates that have not occurred within the last 30 days, so not to clutter the website, always leaving the latest news item.</li>\n  <li>Manually embed the dates on the <a href="https://www.jerseyfsc.org/industry/international-co-operation/sanctions/sanctions-by-country-and-category/" target="_blank">Sanctions by country and category</a> table. Please note that the 'Latest news' date is the <strong>[DATE OF THE UK/UN AMENDMENT]</strong>, whilst the 'Last revised' date is the <strong>[DATE OF THE JFSC PUBLICATION]</strong>.</li>\n  <li>Please advise when you have updated the website and send the Policy staff member the links to check the wording.</li>\n  <li>Upon the Policy staff member's confirmation, please set up an e-mail alert for our subscribers and send it.</li>\n</ol>`;
 
   document.getElementById('output').innerHTML=out;
-  document.getElementById('instructions').style.display = 'block';
+  document.getElementById('instructions').classList.add('show');
 });
 </script>
 
