@@ -26,8 +26,6 @@
       margin-bottom: 1.5rem;
     }
     form {
-      display: grid;
-      gap: 1.5rem;
       background: var(--surface);
       padding: 2rem;
       border-radius: 0.625rem;
@@ -37,6 +35,41 @@
       width: 100%;
       border: 1px solid var(--border);
       box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      position: relative;
+      overflow: hidden;
+      min-height: 20rem;
+    }
+    .step {
+      display: grid;
+      gap: 1.5rem;
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      transform: translateX(100%);
+      transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+    .step.active {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    .nav {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 1rem;
+    }
+    #progress {
+      height: 0.5rem;
+      background: var(--border);
+      border-radius: 0.25rem;
+      overflow: hidden;
+      margin: 1rem auto;
+      max-width: 40rem;
+    }
+    #progressBar {
+      height: 100%;
+      width: 0;
+      background: var(--primary);
+      transition: width 0.3s ease;
     }
     label {
       display: block;
@@ -154,90 +187,113 @@
          alt="Sanction Bustr Logo"
          >
       </h1>
+  <div id="progress"><div id="progressBar"></div></div>
   <form id="sanctionsForm">
-    <label for="mainDate">Statement Date</label>
-    <input type="date" id="mainDate">   <button type="button" onclick="setToday('mainDate')">Today</button>
+    <section class="step">
+      <label for="mainDate">Statement Date</label>
+      <input type="date" id="mainDate"> <button type="button" onclick="setToday('mainDate')">Today</button>
+      <div class="nav">
+        <span></span>
+        <button type="button" class="next">Next</button>
+      </div>
+    </section>
 
-<!-- Add or remove regimes below -->
+    <section class="step">
+      <!-- Add or remove regimes below -->
+      <label for="regimeSelect">Select Regime</label>
+      <select id="regimeSelect">
+        <option disabled selected>Select a regime</option>
 
-    <label for="regimeSelect">Select Regime</label>
-    <select id="regimeSelect">
-      <option disabled selected>Select a regime</option>
+        <option>Afghanistan</option>
+        <option>Belarus</option>
+        <option>Bosnia and Herzegovina</option>
+        <option>Central African Republic</option>
+        <option>Chemical Weapons</option>
+        <option>Counter-terrorism (CT)</option>
+        <option>International counter-terrorism (ICT)</option>
+        <option>Cyber-attacks</option>
+        <option>Democratic Republic of the Congo</option>
+        <option>Global Human Rights</option>
+        <option>Global Irregular Migration and Trafficking in Persons</option>
+        <option>Haiti - Historic bonds</option>
+        <option>Haiti - Peace and security</option>
+        <option>Iran - Nuclear</option>
+        <option>Iran - Financial Sanctions</option>
+        <option>Iraq</option>
+        <option>ISIL (Da'esh) and Al-Qaida</option>
+        <option>Lebanon - Sovereignty</option>
+        <option>Lebanon - Assassination</option>
+        <option>Libya</option>
+        <option>Mali</option>
+        <option>Myanmar</option>
+        <option>Nicaragua</option>
+        <option>North Korea</option>
+        <option>Republic of Guinea</option>
+        <option>Republic of Guinea-Bissau</option>
+        <option>Russian Federation</option>
+        <option>Serbia and Montenegro</option>
+        <option>Somalia</option>
+        <option>South Sudan</option>
+        <option>Sudan</option>
+        <option>Syria - General</option>
+        <option>Syria - Cultural property</option>
+        <option>Eastern Mediterranean Drilling</option>
+        <option>Global Anti-Corruption</option>
+        <option>Venezuela</option>
+        <option>Yemen</option>
+        <option>Zimbabwe</option>
+        <!-- Fill blanks between brackets to add regimes, e.g. "<option>Elbonia Human Rights</option>" -->
+        <option></option>
+        <option></option>
+        <option></option>
+        <option></option>
 
-      <option>Afghanistan</option>
-      <option>Belarus</option>
-      <option>Bosnia and Herzegovina</option>
-      <option>Central African Republic</option>
-      <option>Chemical Weapons</option>
-      <option>Counter-terrorism (CT)</option>
-      <option>International counter-terrorism (ICT)</option>
-      <option>Cyber-attacks</option>
-      <option>Democratic Republic of the Congo</option>
-      <option>Global Human Rights</option>
-      <option>Global Irregular Migration and Trafficking in Persons</option>
-      <option>Haiti - Historic bonds</option>
-      <option>Haiti - Peace and security</option>
-      <option>Iran - Nuclear</option>
-      <option>Iran - Financial Sanctions</option>
-      <option>Iraq</option>
-      <option>ISIL (Da'esh) and Al-Qaida</option>
-      <option>Lebanon - Sovereignty</option>
-      <option>Lebanon - Assassination</option>
-      <option>Libya</option>
-      <option>Mali</option>
-      <option>Myanmar</option>
-      <option>Nicaragua</option>
-      <option>North Korea</option>
-      <option>Republic of Guinea</option>
-      <option>Republic of Guinea-Bissau</option>
-      <option>Russian Federation</option>
-      <option>Serbia and Montenegro</option>
-      <option>Somalia</option>
-      <option>South Sudan</option>
-      <option>Sudan</option>
-      <option>Syria - General</option>
-      <option>Syria - Cultural property</option>
-      <option>Eastern Mediterranean Drilling</option>
-      <option>Global Anti-Corruption</option>
-      <option>Venezuela</option>
-      <option>Yemen</option>
-      <option>Zimbabwe</option>
-      <!-- Fill blanks between brackets to add regimes, e.g. "<option>Elbonia Human Rights</option>" -->
-      <option></option>
-      <option></option>
-      <option></option>
-      <option></option>
+      </select>
+      <div class="tag-container" id="regimeTags"></div>
+      <div class="nav">
+        <button type="button" class="back">Back</button>
+        <button type="button" class="next">Next</button>
+      </div>
+    </section>
 
-    </select>
-    <div class="tag-container" id="regimeTags"></div>
+    <section class="step">
+      <label>Sanction Types (each can have its own date)</label>
+      <div class="checkbox-group">
+        <label class="type-label">
+          <input type="checkbox" name="type" value="UK Entity" onchange="toggleDateInput(this)">
+          <span class="toggle-label">UK Entity</span>
+          <input type="date" id="date-UK Entity" class="type-date" style="display:none;">
+        </label>
+        <label class="type-label">
+          <input type="checkbox" name="type" value="UK Ship" onchange="toggleDateInput(this)">
+          <span class="toggle-label">UK Ship</span>
+          <input type="date" id="date-UK Ship" class="type-date" style="display:none;">
+        </label>
+        <label class="type-label">
+          <input type="checkbox" name="type" value="UNSC" onchange="toggleDateInput(this)">
+          <span class="toggle-label">UNSC</span>
+          <input type="date" id="date-UNSC" class="type-date" style="display:none;">
+        </label>
+        <label class="type-label">
+          <input type="checkbox" name="type" value="UK Director" onchange="toggleDateInput(this)">
+          <span class="toggle-label">UK Director</span>
+          <input type="date" id="date-UK Director" class="type-date" style="display:none;">
+        </label>
+      </div>
+      <div class="nav">
+        <button type="button" class="back">Back</button>
+        <button type="button" class="next">Next</button>
+      </div>
+    </section>
 
-    <label>Sanction Types (each can have its own date)</label>
-    <div class="checkbox-group">
-      <label class="type-label">
-        <input type="checkbox" name="type" value="UK Entity" onchange="toggleDateInput(this)">
-        <span class="toggle-label">UK Entity</span>
-        <input type="date" id="date-UK Entity" class="type-date" style="display:none;">
-      </label>
-      <label class="type-label">
-        <input type="checkbox" name="type" value="UK Ship" onchange="toggleDateInput(this)">
-        <span class="toggle-label">UK Ship</span>
-        <input type="date" id="date-UK Ship" class="type-date" style="display:none;">
-      </label>
-      <label class="type-label">
-        <input type="checkbox" name="type" value="UNSC" onchange="toggleDateInput(this)">
-        <span class="toggle-label">UNSC</span>
-        <input type="date" id="date-UNSC" class="type-date" style="display:none;">
-      </label>
-      <label class="type-label">
-        <input type="checkbox" name="type" value="UK Director" onchange="toggleDateInput(this)">
-        <span class="toggle-label">UK Director</span>
-        <input type="date" id="date-UK Director" class="type-date" style="display:none;">
-      </label>
-    </div>
-
-    <button
-     type="submit">Generate Update
-    </button>
+    <section class="step">
+      <p>Review your selections and generate the update.</p>
+      <button type="submit">Generate Update</button>
+      <div class="nav">
+        <button type="button" class="back">Back</button>
+        <span></span>
+      </div>
+    </section>
 
   </form>
 
@@ -13535,6 +13591,38 @@ module.exports = {
 (64)
 });
 
+</script>
+
+<script>
+const steps = Array.from(document.querySelectorAll('.step'));
+let currentStep = 0;
+const progressBar = document.getElementById('progressBar');
+function showStep(i){
+  steps.forEach((s,idx)=>s.classList.toggle('active', idx===i));
+  progressBar.style.width = ((i+1)/steps.length)*100 + '%';
+}
+function validateStep(i){
+  if(i===0) return document.getElementById('mainDate').value;
+  if(i===1) return regimes.length>0;
+  return true;
+}
+document.querySelectorAll('.next').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    if(validateStep(currentStep) && currentStep < steps.length-1){
+      currentStep++;
+      showStep(currentStep);
+    }
+  });
+});
+document.querySelectorAll('.back').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    if(currentStep>0){
+      currentStep--;
+      showStep(currentStep);
+    }
+  });
+});
+showStep(currentStep);
 </script>
 
 <!-- Refresh Logic -->
