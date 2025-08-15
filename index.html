@@ -8,29 +8,37 @@
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background: #f4f4f4;
       padding: 2rem;
-      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
-    h1 { color: #333; }
+    h1 { color: #333; text-align: center; }
     form {
       background: white;
       padding: 2rem;
       border-radius: 10px;
-      display: inline-block;
-      text-align: left;
       max-width: 700px;
       width: 100%;
+      display: grid;
+      gap: 1rem;
     }
-    label { display:block; margin-top:1rem; font-weight:bold; }
-    input,select{ padding:0.5rem; margin-top:0.5rem; border-radius:5px; border:1px solid #ccc; }
-    input[type="date"]{ width:auto; }
-    .checkbox-group{ display:flex; flex-direction:column; gap:0.5rem; margin-top:0.5rem; }
+    label { font-weight: bold; }
+    input,select{ padding:0.5rem; border-radius:5px; border:1px solid #ccc; width:100%; }
+    .date-input input[type="date"]{ width:auto; }
+    .checkbox-group{ display:flex; flex-direction:column; gap:0.5rem; }
     .checkbox-group label{ font-weight:normal; }
     .type-date,.today-btn{ margin-left:0.5rem; }
-    button{ margin-top:1rem; padding:0.75rem 1.5rem; background:#087DBA; color:white; border:none; border-radius:5px; cursor:pointer; }
+    button{ margin-top:1rem; padding:0.75rem 1.5rem; background:#087DBA; color:white; border:none; border-radius:5px; cursor:pointer; grid-column:1/-1; }
     #output{ margin-top:2rem; white-space:pre-wrap; background:#fff; padding:1rem; border-radius:10px; border:1px solid #ccc; text-align:left; }
-    .tag-container{ display:flex; flex-wrap:wrap; gap:0.5rem; margin-top:0.5rem; }
+    .tag-container{ display:flex; flex-wrap:wrap; gap:0.5rem; grid-column:1/-1; }
     .tag{ background:#087DBA; color:white; padding:0.3rem 0.6rem; border-radius:3px; display:flex; align-items:center; }
     .tag button{ background:none; border:none; color:white; margin-left:0.5rem; cursor:pointer; }
+    .date-input{ display:flex; gap:0.5rem; }
+    .form-row{ display:contents; }
+    @media (min-width: 600px) {
+      form { grid-template-columns: 1fr 1fr; align-items: center; }
+      form label { text-align: right; }
+    }
   </style>
     <link rel="icon" type="image/png" href="data:image/png;base64,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" />
 </head>
@@ -52,73 +60,80 @@
          >
       </h1>
   <form id="sanctionsForm">
-    <label for="mainDate">Statement Date</label>
-    <input type="date" id="mainDate">   <button type="button" onclick="setToday('mainDate')">Today</button>
-
-<!-- Add or remove regimes below -->
-
-    <label for="regimeSelect">Select Regime</label>
-    <select id="regimeSelect">
-      <option disabled selected>Select a regime</option>
-
-      <option>Afghanistan</option>
-      <option>Belarus</option>
-      <option>Bosnia and Herzegovina</option>
-      <option>Central African Republic</option>
-      <option>Chemical Weapons</option>
-      <option>Counter-terrorism (CT)</option>
-      <option>International counter-terrorism (ICT)</option>
-      <option>Cyber-attacks</option>
-      <option>Democratic Republic of the Congo</option>
-      <option>Global Human Rights</option>
-      <option>Global Irregular Migration and Trafficking in Persons</option>
-      <option>Haiti - Historic bonds</option>
-      <option>Haiti - Peace and security</option>
-      <option>Iran - Nuclear</option>
-      <option>Iran - Financial Sanctions</option>
-      <option>Iraq</option>
-      <option>ISIL (Da'esh) and Al-Qaida</option>
-      <option>Lebanon - Sovereignty</option>
-      <option>Lebanon - Assassination</option>
-      <option>Libya</option>
-      <option>Mali</option>
-      <option>Myanmar</option>
-      <option>Nicaragua</option>
-      <option>North Korea</option>
-      <option>Republic of Guinea</option>
-      <option>Republic of Guinea-Bissau</option>
-      <option>Russian Federation</option>
-      <option>Serbia and Montenegro</option>
-      <option>Somalia</option>
-      <option>South Sudan</option>
-      <option>Sudan</option>
-      <option>Syria - General</option>
-      <option>Syria - Cultural property</option>
-      <option>Eastern Mediterranean Drilling</option>
-      <option>Global Anti-Corruption</option>
-      <option>Venezuela</option>
-      <option>Yemen</option>
-      <option>Zimbabwe</option>
-      <!-- Fill blanks between brackets to add regimes, e.g. "<option>Elbonia Human Rights</option>" -->
-      <option></option>
-      <option></option>
-      <option></option>
-      <option></option>
-
-    </select>
-    <div class="tag-container" id="regimeTags"></div>
-
-    <label>Sanction Types (each can have its own date)</label>
-    <div class="checkbox-group">
-      <label class="type-label"><input type="checkbox" name="type" value="UK Entity" onchange="toggleDateInput(this)"> UK Entity <input type="date" id="date-UK Entity" class="type-date" style="display:none;"></label>
-      <label class="type-label"><input type="checkbox" name="type" value="UK Ship" onchange="toggleDateInput(this)"> UK Ship <input type="date" id="date-UK Ship" class="type-date" style="display:none;"></label>
-      <label class="type-label"><input type="checkbox" name="type" value="UNSC" onchange="toggleDateInput(this)"> UNSC <input type="date" id="date-UNSC" class="type-date" style="display:none;"></label>
-      <label class="type-label"><input type="checkbox" name="type" value="UK Director" onchange="toggleDateInput(this)"> UK Director <input type="date" id="date-UK Director" class="type-date" style="display:none;"></label>
+    <div class="form-row">
+      <label for="mainDate">Statement Date</label>
+      <div class="date-input">
+        <input type="date" id="mainDate">
+        <button type="button" onclick="setToday('mainDate')">Today</button>
+      </div>
     </div>
 
-    <button
-     type="submit">Generate Update
-    </button>
+    <!-- Add or remove regimes below -->
+
+    <div class="form-row">
+      <label for="regimeSelect">Select Regime</label>
+      <select id="regimeSelect">
+        <option disabled selected>Select a regime</option>
+
+        <option>Afghanistan</option>
+        <option>Belarus</option>
+        <option>Bosnia and Herzegovina</option>
+        <option>Central African Republic</option>
+        <option>Chemical Weapons</option>
+        <option>Counter-terrorism (CT)</option>
+        <option>International counter-terrorism (ICT)</option>
+        <option>Cyber-attacks</option>
+        <option>Democratic Republic of the Congo</option>
+        <option>Global Human Rights</option>
+        <option>Global Irregular Migration and Trafficking in Persons</option>
+        <option>Haiti - Historic bonds</option>
+        <option>Haiti - Peace and security</option>
+        <option>Iran - Nuclear</option>
+        <option>Iran - Financial Sanctions</option>
+        <option>Iraq</option>
+        <option>ISIL (Da'esh) and Al-Qaida</option>
+        <option>Lebanon - Sovereignty</option>
+        <option>Lebanon - Assassination</option>
+        <option>Libya</option>
+        <option>Mali</option>
+        <option>Myanmar</option>
+        <option>Nicaragua</option>
+        <option>North Korea</option>
+        <option>Republic of Guinea</option>
+        <option>Republic of Guinea-Bissau</option>
+        <option>Russian Federation</option>
+        <option>Serbia and Montenegro</option>
+        <option>Somalia</option>
+        <option>South Sudan</option>
+        <option>Sudan</option>
+        <option>Syria - General</option>
+        <option>Syria - Cultural property</option>
+        <option>Eastern Mediterranean Drilling</option>
+        <option>Global Anti-Corruption</option>
+        <option>Venezuela</option>
+        <option>Yemen</option>
+        <option>Zimbabwe</option>
+        <!-- Fill blanks between brackets to add regimes, e.g. "<option>Elbonia Human Rights</option>" -->
+        <option></option>
+        <option></option>
+        <option></option>
+        <option></option>
+
+      </select>
+    </div>
+    <div class="tag-container" id="regimeTags"></div>
+
+    <div class="form-row">
+      <label>Sanction Types (each can have its own date)</label>
+      <div class="checkbox-group">
+        <label class="type-label"><input type="checkbox" name="type" value="UK Entity" onchange="toggleDateInput(this)"> UK Entity <input type="date" id="date-UK Entity" class="type-date" style="display:none;"></label>
+        <label class="type-label"><input type="checkbox" name="type" value="UK Ship" onchange="toggleDateInput(this)"> UK Ship <input type="date" id="date-UK Ship" class="type-date" style="display:none;"></label>
+        <label class="type-label"><input type="checkbox" name="type" value="UNSC" onchange="toggleDateInput(this)"> UNSC <input type="date" id="date-UNSC" class="type-date" style="display:none;"></label>
+        <label class="type-label"><input type="checkbox" name="type" value="UK Director" onchange="toggleDateInput(this)"> UK Director <input type="date" id="date-UK Director" class="type-date" style="display:none;"></label>
+      </div>
+    </div>
+
+    <button type="submit">Generate Update</button>
 
   </form>
 
