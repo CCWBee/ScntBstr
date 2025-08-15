@@ -122,14 +122,22 @@
 
   </form>
 
+  <button id="toggleInstructionsBtn" type="button" style="margin-top:1rem;">Help</button>
+
   <div
-   id="instructions" 
-   style="margin-top:2rem; display:none; margin-bottom:1rem; background:#eaf6ff; padding:1rem; border-radius:8px; border:1px solid #087cba75; color:#087DBA; text-align:left;"
+   id="instructions"
+   style="margin-top:2rem; margin-bottom:1rem; background:#eaf6ff; padding:1rem; border-radius:8px; border:1px solid #087cba75; color:#087DBA; text-align:left;"
    >
-    <strong>
-        Instructions:
-    </strong> 
-    Ensure the output is accurate (dates, regimes, etc.) before generating the Word document.
+    <h3 style="margin-top:0;">
+      <span style="margin-right:0.5rem;">ℹ️</span>How to Use
+    </h3>
+    <ul>
+      <li>Select the relevant regime(s) from the dropdown.</li>
+      <li>Enter dates for each sanction type you are updating.</li>
+      <li>Click <strong>Generate Update</strong> to produce the text.</li>
+      <li>Download the result via <strong>Download as .docx</strong>.</li>
+    </ul>
+    <p><strong>⚠️ Reminder:</strong> Ensure the output is accurate (dates, regimes, etc.) before generating the Word document.</p>
   </div>
 
   <div id="output"></div>
@@ -185,8 +193,13 @@ document.getElementById('sanctionsForm').addEventListener('submit',e=>{
   out+=`\n<hr>\n<ol start="2">\n  <li>Set up the publication date as "Last updated" on the SharePoint tab. Please remove any "Latest news" notifications updates that have not occurred within the last 30 days, so not to clutter the website, always leaving the latest news item.</li>\n  <li>Manually embed the dates on the <a href="https://www.jerseyfsc.org/industry/international-co-operation/sanctions/sanctions-by-country-and-category/" target="_blank">Sanctions by country and category</a> table. Please note that the 'Latest news' date is the <strong>[DATE OF THE UK/UN AMENDMENT]</strong>, whilst the 'Last revised' date is the <strong>[DATE OF THE JFSC PUBLICATION]</strong>.</li>\n  <li>Please advise when you have updated the website and send the Policy staff member the links to check the wording.</li>\n  <li>Upon the Policy staff member's confirmation, please set up an e-mail alert for our subscribers and send it.</li>\n</ol>`;
 
   document.getElementById('output').innerHTML=out;
-  document.getElementById('instructions').style.display = 'block';
 });
+
+document.getElementById('toggleInstructionsBtn').addEventListener('click',()=>{
+  const panel=document.getElementById('instructions');
+  panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+});
+
 </script>
 
 
