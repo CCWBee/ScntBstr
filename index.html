@@ -37,10 +37,19 @@
       box-shadow: 0 2px 4px rgba(0,0,0,0.05);
       position: relative;
       overflow-x: hidden;
+      height: 25rem;
     }
     form.review {
       max-width: none;
       overflow: visible;
+      height: auto;
+    }
+    form.review .step.active {
+      position: static;
+      transform: none;
+    }
+    form.review .step:not(.active) {
+      display: none;
     }
     .step {
       display: flex;
