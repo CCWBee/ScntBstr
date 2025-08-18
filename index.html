@@ -37,8 +37,10 @@
       box-shadow: 0 2px 4px rgba(0,0,0,0.05);
       position: relative;
       overflow-x: hidden;
-      overflow-y: auto;
-      min-height: 25rem;
+    }
+    form.review {
+      max-width: none;
+      overflow: visible;
     }
     .step {
       display: flex;
@@ -13623,6 +13625,7 @@ const progressBar = document.getElementById('progressBar');
 function showStep(i){
   steps.forEach((s,idx)=>s.classList.toggle('active', idx===i));
   progressBar.style.width = ((i+1)/steps.length)*100 + '%';
+  document.getElementById('sanctionsForm').classList.toggle('review', i === steps.length - 1);
 }
 function validateStep(i){
   if(i===0) return document.getElementById('mainDate').value;
