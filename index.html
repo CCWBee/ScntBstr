@@ -201,6 +201,14 @@
     #output { white-space: pre-wrap; }
     .instructions { display: none; margin-bottom: 1rem; }
     .instructions.show { display: block; }
+    .step-instructions {
+      background: #e7f1ff;
+      border-left: 4px solid var(--primary);
+      padding: 1rem;
+      border-radius: 0.5rem;
+      color: #084298;
+      margin-bottom: 1rem;
+    }
     .tag-container { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.5rem; }
     .tag { background: var(--primary); color: white; padding: 0.3rem 0.6rem; border-radius: 0.25rem; display: flex; align-items: center; }
     .tag button { background: none; border: none; color: white; margin-left: 0.5rem; cursor: pointer; }
@@ -227,6 +235,7 @@
   <div id="progress"><div id="progressBar"></div></div>
   <form id="sanctionsForm">
     <section class="step">
+      <div class="step-instructions">Pick the date of the sanctions statement. Use the "Today" button to fill in today's date, then click Next.</div>
       <label for="mainDate">Statement Date</label>
       <input type="date" id="mainDate"> <button type="button" onclick="setToday('mainDate')">Today</button>
       <div class="nav">
@@ -235,6 +244,7 @@
     </section>
 
     <section class="step">
+      <div class="step-instructions">Select one or more sanctions regimes from the list. Each choice appears below as a removable tag. Click Next when finished.</div>
       <!-- Add or remove regimes below -->
       <label for="regimeSelect">Select Regime</label>
       <select id="regimeSelect">
@@ -293,6 +303,7 @@
     </section>
 
     <section class="step">
+      <div class="step-instructions">Toggle the sanction types that apply. For each selection, confirm or adjust the date shown. Click Next to proceed.</div>
       <label>Sanction Types (each can have its own date)</label>
       <div class="checkbox-group">
         <label class="type-label">
@@ -323,7 +334,7 @@
     </section>
 
       <section class="step">
-        <p>Review your selections and generate the update.</p>
+        <div class="step-instructions">Review your selections. Use Back to make changes, then press "Generate Update" to create the summary.</div>
         <button type="submit">Generate Update</button>
         <div class="nav">
           <button type="button" class="back">Back</button>
@@ -331,13 +342,12 @@
       </section>
 
       <section class="step">
-        <div id="instructions" class="instructions">
-          <strong>Instructions:</strong>
+        <div id="instructions" class="instructions step-instructions">
+          <strong>What's next?</strong>
           <ul>
-            <li>Select the sanction types that apply using the toggles.</li>
-            <li>Enter the effective date for each selected type, or use the "Today" button to autofill the current date.</li>
-            <li>Press "Generate Update" to create the summary text.</li>
-            <li>Review the output carefully before exporting the Word document to ensure names, dates and regimes are correct.</li>
+            <li>Review the generated text below and ensure all dates, regimes and names are correct.</li>
+            <li>Download the Word document or copy the text for your records.</li>
+            <li>Use the Back button if you need to edit any information.</li>
           </ul>
         </div>
         <div id="output"></div>
