@@ -375,10 +375,21 @@ document.getElementById('sanctionsForm').addEventListener('submit',e=>{
   e.preventDefault();
   const statementDate=gb(document.getElementById('mainDate').value);
   const regimeText=regimes.join(', ');
-  let out=`<p>[${statementDate}] - Instruction to update sanctions regime webpage(s) for ${regimeText} sanctions regime(s)</p>`;
-  out+=`<p>1. Update the "Latest news" on a relevant sanctions webpage(s) with the following standard wording and links (do not change the links).</p>`;
+  const selectedTypeInputs=Array.from(document.querySelectorAll('input[name="type"]:checked'));
+  const selectedTypes=selectedTypeInputs.map(cb=>cb.value);
+  const formatTypeList=types=>{
+    if(!types.length) return '';
+    if(types.length===1) return types[0];
+    if(types.length===2) return types.join(' and ');
+    return `${types.slice(0,-1).join(', ')} and ${types[types.length-1]}`;
+  };
+  const typeSummaryItem=selectedTypes.length
+    ? `<li><strong>${selectedTypes.length}</strong> sanction type${selectedTypes.length>1?'s':''} selected: ${formatTypeList(selectedTypes)}. Make sure MarComms is briefed on every update before distribution.</li>`
+    : `<li>No sanction types were selected. Confirm with Policy whether any updates are required before sending to MarComms.</li>`;
 
-  Array.from(document.querySelectorAll('input[name="type"]:checked')).forEach(cb=>{
+  let out=`<p>[${statementDate}] - Instruction to update sanctions regime webpage(s) for ${regimeText} sanctions regime(s)</p>`;
+
+  selectedTypeInputs.forEach(cb=>{
     const type=cb.value;
     const d=gb(document.getElementById('date-'+type).value);
     switch(type){
@@ -400,7 +411,15 @@ document.getElementById('sanctionsForm').addEventListener('submit',e=>{
     }
   });
 
-  out+=`\n<hr>\n<ol start="2">\n  <li>Set up the publication date as "Last updated" on the SharePoint tab. Please remove any "Latest news" notifications updates that have not occurred within the last 30 days, so not to clutter the website, always leaving the latest news item.</li>\n  <li>Manually embed the dates on the <a href="https://www.jerseyfsc.org/industry/international-co-operation/sanctions/sanctions-by-country-and-category/" target="_blank">Sanctions by country and category</a> table. Please note that the 'Latest news' date is the <strong>[DATE OF THE UK/UN AMENDMENT]</strong>, whilst the 'Last revised' date is the <strong>[DATE OF THE JFSC PUBLICATION]</strong>.</li>\n  <li>Please advise when you have updated the website and send the Policy staff member the links to check the wording.</li>\n  <li>Upon the Policy staff member's confirmation, please set up an e-mail alert for our subscribers and send it.</li>\n</ol>`;
+  const checklistItems=[
+    `<li>Update the "Latest news" on a relevant sanctions webpage(s) with the following standard wording and links (do not change the links).</li>`,
+    typeSummaryItem,
+    `<li>Set up the publication date as "Last updated" on the SharePoint tab. Please remove any "Latest news" notifications updates that have not occurred within the last 30 days, so not to clutter the website, always leaving the latest news item.</li>`,
+    `<li>Manually embed the dates on the <a href="https://www.jerseyfsc.org/industry/international-co-operation/sanctions/sanctions-by-country-and-category/" target="_blank">Sanctions by country and category</a> table. Please note that the 'Latest news' date is the <strong>[DATE OF THE UK/UN AMENDMENT]</strong>, whilst the 'Last revised' date is the <strong>[DATE OF THE JFSC PUBLICATION]</strong>.</li>`,
+    `<li>Please advise when you have updated the website and send the Policy staff member the links to check the wording.</li>`,
+    `<li>Upon the Policy staff member's confirmation, please set up an e-mail alert for our subscribers and send it.</li>`
+  ];
+  out+=`\n<hr>\n<ol>\n  ${checklistItems.join('\n  ')}\n</ol>`;
 
   document.getElementById('output').innerHTML=out;
   document.getElementById('instructions').classList.add('show');
