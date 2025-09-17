@@ -404,7 +404,7 @@ document.getElementById('sanctionsForm').addEventListener('submit',e=>{
     return `${types.slice(0,-1).join(', ')} and ${types[types.length-1]}`;
   };
   const sanctionSummary=selectedTypes.length
-    ? `<div class="sanction-summary" role="status"><span class="sanction-summary__icon" aria-hidden="true">⚠️</span><span><strong>${selectedTypes.length}</strong> sanction type${selectedTypes.length>1?'s':''} selected: ${formatTypeList(selectedTypes)}. Make sure MarComms is briefed on every update before distribution.</span></div>`
+    ? `<div class="sanction-summary" role="status"><span class="sanction-summary__icon" aria-hidden="true">⚠️</span><span><strong>${selectedTypes.length}</strong> sanction type${selectedTypes.length>1?'s':''} selected: ${formatTypeList(selectedTypes)}. Make sure you cover every update before distribution.</span></div>`
     : `<div class="sanction-summary" role="status"><span class="sanction-summary__icon" aria-hidden="true">ℹ️</span><span>No sanction types were selected. Confirm with Policy whether any updates are required before sending to MarComms.</span></div>`;
 
   let out=`<p>[${statementDate}] - Instruction to update sanctions regime webpage(s) for ${regimeText} sanctions regime(s)</p>`;
