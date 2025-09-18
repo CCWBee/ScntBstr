@@ -14,11 +14,11 @@
     }
     .sanction-summary {
       margin: 1.5rem auto 1rem;
-      padding: 1.25rem 1.5rem;
+      padding: 1.5rem 1.75rem;
       background: #fff4d6;
       color: #5c3d00;
       border: 2px solid #f0b429;
-      border-radius: 0.75rem;
+      border-radius: 0;
       font-weight: 600;
       display: flex;
       align-items: center;
@@ -47,13 +47,13 @@
     }
     form {
       background: var(--surface);
-      padding: 2rem;
-      border-radius: 0.625rem;
+      padding: 2.25rem 2.5rem;
+      border-radius: 0;
       text-align: left;
       max-width: 45rem;
       margin: 0 auto;
       width: 100%;
-      border: 1px solid var(--border);
+      border: 2px solid var(--border);
       box-shadow: 0 2px 4px rgba(0,0,0,0.05);
       position: relative;
       overflow-x: hidden;
@@ -109,10 +109,11 @@
     #progress {
       height: 0.5rem;
       background: var(--border);
-      border-radius: 0.25rem;
+      border-radius: 0;
       overflow: hidden;
       margin: 1rem auto;
       max-width: 45rem;
+      border: 1px solid var(--border);
     }
     #progressBar {
       height: 100%;
@@ -126,9 +127,9 @@
     }
     input,
     select {
-      padding: 0.75rem;
-      border-radius: 0.5rem;
-      border: 1px solid #ccc;
+      padding: 0.75rem 0.85rem;
+      border-radius: 0;
+      border: 1px solid #b9c2cc;
       font-size: 1rem;
       width: 100%;
     }
@@ -155,10 +156,11 @@
       width: 2.5rem;
       height: 1.25rem;
       background: #ccc;
-      border-radius: 1rem;
+      border-radius: 0;
       position: relative;
       cursor: pointer;
-      transition: background 0.3s;
+      transition: background 0.3s, border-color 0.3s;
+      border: 1px solid #9aa3ad;
     }
     .checkbox-group input[type="checkbox"]::before {
       content: "";
@@ -166,17 +168,21 @@
       width: 1.125rem;
       height: 1.125rem;
       background: white;
-      border-radius: 50%;
+      border-radius: 0;
       top: 50%;
       left: 0.125rem;
       transform: translate(0, -50%);
       transition: transform 0.3s;
+      border: 1px solid #d0d7de;
+      box-shadow: 0 1px 1px rgba(0,0,0,0.08);
     }
     .checkbox-group input[type="checkbox"]:checked {
       background: var(--primary);
+      border-color: var(--primary);
     }
     .checkbox-group input[type="checkbox"]:checked::before {
       transform: translate(1.25rem, -50%);
+      border-color: var(--primary);
     }
     .checkbox-group input[type="checkbox"]:checked + .toggle-label {
       color: var(--primary);
@@ -187,19 +193,21 @@
       margin-left: 0.5rem;
     }
     button {
-      padding: 0.5rem 1rem;
+      padding: 0.6rem 1.25rem;
       background: var(--primary);
       color: white;
-      border: none;
-      border-radius: 0.5rem;
+      border: 1px solid #2f6ebd;
+      border-radius: 0;
       font-size: 1rem;
       cursor: pointer;
-      transition: background 0.3s;
+      transition: background 0.3s, box-shadow 0.3s;
       width: auto;
       display: inline-block;
+      box-shadow: 0 2px 0 rgba(0,0,0,0.1);
     }
     button:hover {
       background: #347dcf;
+      box-shadow: 0 3px 0 rgba(0,0,0,0.14);
     }
     button[type="submit"],
     #downloadDocxBtn {
@@ -211,8 +219,8 @@
     .instructions {
       margin-top: 2rem;
       background: var(--surface);
-      padding: 2rem;
-      border-radius: 0.625rem;
+      padding: 2.25rem;
+      border-radius: 0;
       border: 1px solid var(--border);
       color: var(--text);
       text-align: left;
@@ -224,14 +232,14 @@
     .step-instructions {
       background: #e7f1ff;
       border-left: 4px solid var(--primary);
-      padding: 1rem;
-      border-radius: 0.5rem;
+      padding: 1rem 1.25rem;
+      border-radius: 0;
       color: #084298;
       margin-bottom: 1rem;
     }
     .tag-container { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.5rem; }
-    .tag { background: var(--primary); color: white; padding: 0.3rem 0.6rem; border-radius: 0.25rem; display: flex; align-items: center; }
-    .tag button { background: none; border: none; color: white; margin-left: 0.5rem; cursor: pointer; }
+    .tag { background: var(--primary); color: white; padding: 0.35rem 0.65rem; border-radius: 0; display: flex; align-items: center; border: 1px solid rgba(255,255,255,0.4); }
+    .tag button { background: none; border: none; color: white; margin-left: 0.5rem; cursor: pointer; padding: 0; box-shadow: none; }
   </style>
     <link rel="icon" type="image/png" href="data:image/png;base64,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" />
 </head>
@@ -243,7 +251,7 @@
   >
   <button 
   id="newUpdateBtn" 
-  style="position: fixed; top: 1rem; right: 1rem; padding: 0.75rem 1.5rem; background: var(--primary); color: white; border: none; border-radius: 8px; cursor: pointer; z-index: 101; transition: background 0.3s;">New Update</button>
+  style="position: fixed; top: 1rem; right: 1rem; z-index: 101;">New Update</button>
   
     <h1>
         Sanctions Update Generator
