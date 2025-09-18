@@ -12,26 +12,6 @@
       --text: #212529;
       --primary-border: #b6d4fe;
     }
-    .sanction-summary {
-      margin: 1.5rem auto 1rem;
-      padding: 1.5rem 1.75rem;
-      background: #fff4d6;
-      color: #5c3d00;
-      border: 2px solid #f0b429;
-      border-radius: 0;
-      font-weight: 600;
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-      max-width: 45rem;
-    }
-    .sanction-summary__icon {
-      font-size: 1.75rem;
-    }
-    .sanction-summary strong {
-      font-weight: 700;
-    }
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background: var(--background);
@@ -412,8 +392,8 @@ document.getElementById('sanctionsForm').addEventListener('submit',e=>{
     return `${types.slice(0,-1).join(', ')} and ${types[types.length-1]}`;
   };
   const sanctionSummary=selectedTypes.length
-    ? `<div class="sanction-summary" role="status"><span class="sanction-summary__icon" aria-hidden="true">⚠️</span><span><strong>${selectedTypes.length}</strong> sanction type${selectedTypes.length>1?'s':''} selected: ${formatTypeList(selectedTypes)}. Make sure you cover every update before distribution.</span></div>`
-    : `<div class="sanction-summary" role="status"><span class="sanction-summary__icon" aria-hidden="true">ℹ️</span><span>No sanction types were selected. Confirm with Policy whether any updates are required before sending to MarComms.</span></div>`;
+    ? `<p>Sanction summary</p><p>---</p><p>Count: ${selectedTypes.length}</p><p>Types: ${formatTypeList(selectedTypes)}</p><p>Please ensure each update is covered before distribution.</p>`
+    : `<p>Sanction summary</p><p>---</p><p>No sanction types were selected.</p><p>Confirm with Policy whether any updates are required before sending to MarComms.</p>`;
 
   let out=`<p>[${statementDate}] - Instruction to update sanctions regime webpage(s) for ${regimeText} sanctions regime(s)</p>`;
 
