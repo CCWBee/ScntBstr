@@ -349,7 +349,8 @@
           <strong>What's next?</strong>
           <ul>
             <li>Review the generated text below and ensure all dates, regimes, and names are correct.</li>
-            <li>Download the Word document and send it as an urgent website request to MarComms.</li>
+            <li><strong>Download</strong> the Word document at the <strong>bottom of the page</strong>.</li>
+            <li>Create a <a href="https://example.com" target="_blank" rel="noopener">MarComms</a> website request and select <strong>Urgent</strong>.</li>
             <li>Save the Word document in <a href="https://www.bbc.co.uk/news" target="_blank" rel="noopener">EDRMS</a>.</li>
             <li>Save the Trigger email in the appropriate location in <a href="https://www.jerseyfsc.org/" target="_blank" rel="noopener">EDRMS</a>.</li>
             <li>Update the <a href="https://www.ft.com/" target="_blank" rel="noopener">sanctions log</a> with details of the alert.</li>
@@ -386,15 +387,22 @@ document.getElementById('sanctionsForm').addEventListener('submit',e=>{
   const regimeText=regimes.join(', ');
   const selectedTypeInputs=Array.from(document.querySelectorAll('input[name="type"]:checked'));
   const selectedTypes=selectedTypeInputs.map(cb=>cb.value);
-  const formatTypeList=types=>{
-    if(!types.length) return '';
-    if(types.length===1) return types[0];
-    if(types.length===2) return types.join(' and ');
-    return `${types.slice(0,-1).join(', ')} and ${types[types.length-1]}`;
+  const formatList=list=>{
+    if(!list.length) return '';
+    if(list.length===1) return list[0];
+    if(list.length===2) return list.join(' and ');
+    return `${list.slice(0,-1).join(', ')} and ${list[list.length-1]}`;
   };
-  const sanctionSummary=selectedTypes.length
-    ? `<p>Sanction summary</p><p>---</p><p>Count: ${selectedTypes.length}</p><p>Types: ${formatTypeList(selectedTypes)}</p><p>Please ensure each update is covered before distribution.</p>`
-    : `<p>Sanction summary</p><p>---</p><p>No sanction types were selected.</p><p>Confirm with Policy whether any updates are required before sending to MarComms.</p>`;
+  const typeLine=selectedTypes.length
+    ? `Sanction categories (${selectedTypes.length}): ${formatList(selectedTypes)}`
+    : 'No sanction categories were selected.';
+  const regimeLine=regimes.length
+    ? `Regimes (${regimes.length}): ${formatList(regimes)}`
+    : 'No regimes were selected.';
+  const summaryNote=selectedTypes.length
+    ? 'Please ensure each update is covered before distribution.'
+    : 'Confirm with Policy whether any updates are required before sending to MarComms.';
+  const sanctionSummary=`<p>Sanction summary</p><hr><p>${typeLine}</p><p>${regimeLine}</p><p>${summaryNote}</p>`;
 
   let out=`<p>[${statementDate}] - Instruction to update sanctions regime webpage(s) for ${regimeText} sanctions regime(s)</p>`;
 
