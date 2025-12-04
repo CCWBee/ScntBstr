@@ -5,39 +5,69 @@
   <title>Sanctions Bustr</title>
   <style>
     :root {
-      --primary: #4a90e2;
-      --background: #f1f3f5;
-      --surface: #ffffff;
-      --border: #d0d7de;
-      --text: #212529;
-      --primary-border: #b6d4fe;
+      --primary: #0f62fe;
+      --accent: #ffb000;
+      --background: #e6ebf4;
+      --background-ink: #dae0eb;
+      --surface: #fdfdfd;
+      --border: #9da7b8;
+      --text: #0a1a2f;
+      --muted: #4f637a;
+      --primary-border: #7da6ff;
+      --shadow: 0 18px 30px rgba(6, 26, 56, 0.08);
+    }
+
+    body[data-theme="anduril"] {
+      --primary: #4ce3b5;
+      --accent: #f15b2a;
+      --background: #06090f;
+      --background-ink: #0b111b;
+      --surface: #0f1624;
+      --border: #1e2a3d;
+      --text: #e6edf7;
+      --muted: #8aa3c2;
+      --primary-border: #4ce3b5;
+      --shadow: 0 16px 28px rgba(0, 0, 0, 0.45);
     }
     body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: var(--background);
+      font-family: 'IBM Plex Sans', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: radial-gradient(circle at 20% 20%, rgba(15, 98, 254, 0.08), transparent 40%),
+                  linear-gradient(135deg, var(--background), var(--background-ink));
       color: var(--text);
-      padding: 2rem;
+      padding: 2.75rem;
       text-align: center;
       font-size: 1.125rem;
+      letter-spacing: 0.01em;
+      transition: background 0.4s ease, color 0.4s ease;
     }
     h1 {
-      color: var(--primary);
-      font-size: 2.25rem;
-      margin-bottom: 1.5rem;
+      color: var(--text);
+      font-size: 2.3rem;
+      margin-bottom: 1.25rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      background: linear-gradient(90deg, rgba(15, 98, 254, 0.15), transparent 50%);
+      padding: 0.35rem 0.85rem;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
     }
     form {
-      background: var(--surface);
-      padding: 2.25rem 2.5rem;
-      border-radius: 0;
+      background: linear-gradient(145deg, rgba(255,255,255,0.85), rgba(255,255,255,0.75)), var(--surface);
+      padding: 2.4rem 2.65rem;
+      border-radius: 12px;
       text-align: left;
-      max-width: 45rem;
+      max-width: 48rem;
       margin: 0 auto;
       width: 100%;
-      border: 2px solid var(--border);
-      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
       position: relative;
       overflow-x: hidden;
-      height: 25rem;
+      height: 26.5rem;
+      backdrop-filter: blur(4px);
     }
     form.review {
       max-width: none;
@@ -55,8 +85,8 @@
       display: flex;
       flex-direction: column;
       gap: 1.5rem;
-      align-items: center;
-      text-align: center;
+      align-items: stretch;
+      text-align: left;
       position: absolute;
       inset: 0;
       opacity: 0;
@@ -87,37 +117,58 @@
       margin-right: auto;
     }
     #progress {
-      height: 0.5rem;
-      background: var(--border);
-      border-radius: 0;
+      height: 0.65rem;
+      background: var(--background-ink);
+      border-radius: 999px;
       overflow: hidden;
-      margin: 1rem auto;
-      max-width: 45rem;
+      margin: 1rem auto 1.75rem;
+      max-width: 48rem;
       border: 1px solid var(--border);
+      box-shadow: inset 0 2px 6px rgba(0,0,0,0.1);
     }
     #progressBar {
       height: 100%;
       width: 0;
-      background: var(--primary);
+      background: repeating-linear-gradient(135deg, var(--primary), var(--primary) 12px, var(--accent) 12px, var(--accent) 24px);
       transition: width 0.3s ease;
     }
     label {
       display: block;
       font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--muted);
     }
     input,
     select {
       padding: 0.75rem 0.85rem;
-      border-radius: 0;
+      border-radius: 8px;
       border: 1px solid #b9c2cc;
       font-size: 1rem;
       width: 100%;
+      background: var(--surface);
+      color: var(--text);
+      box-shadow: inset 0 1px 2px rgba(0,0,0,0.05);
     }
     input:focus,
     select:focus {
       outline: none;
       border-color: var(--primary);
       box-shadow: 0 0 0 2px var(--primary-border);
+    }
+    .invalid-field {
+      border-color: #c0392b;
+      box-shadow: 0 0 0 2px rgba(192,57,43,0.2);
+    }
+    .error-message {
+      color: #c0392b;
+      font-size: 0.95rem;
+      margin-top: 0.35rem;
+      min-height: 1.2em;
+      display: none;
+    }
+    .error-message.error-visible {
+      display: block;
     }
     input[type="date"] { width: auto; }
     .checkbox-group {
@@ -173,21 +224,32 @@
       margin-left: 0.5rem;
     }
     button {
-      padding: 0.6rem 1.25rem;
-      background: var(--primary);
+      padding: 0.65rem 1.35rem;
+      background: linear-gradient(120deg, var(--primary), #0c3d99);
       color: white;
-      border: 1px solid #2f6ebd;
-      border-radius: 0;
+      border: 1px solid #0c3d99;
+      border-radius: 10px;
       font-size: 1rem;
       cursor: pointer;
-      transition: background 0.3s, box-shadow 0.3s;
+      transition: transform 0.18s ease, box-shadow 0.2s ease, filter 0.2s ease;
       width: auto;
       display: inline-block;
-      box-shadow: 0 2px 0 rgba(0,0,0,0.1);
+      box-shadow: 0 8px 18px rgba(0,0,0,0.18);
+      letter-spacing: 0.02em;
     }
     button:hover {
-      background: #347dcf;
-      box-shadow: 0 3px 0 rgba(0,0,0,0.14);
+      transform: translateY(-1px);
+      filter: saturate(1.05);
+      box-shadow: 0 12px 24px rgba(0,0,0,0.2);
+    }
+    button.ghost-btn {
+      background: linear-gradient(120deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
+      color: var(--text);
+      border-color: var(--border);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.08);
+    }
+    button.ghost-btn:hover {
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.18), 0 8px 16px rgba(0,0,0,0.12);
     }
     button[type="submit"],
     #downloadDocxBtn {
@@ -200,22 +262,38 @@
       margin-top: 2rem;
       background: var(--surface);
       padding: 2.25rem;
-      border-radius: 0;
+      border-radius: 12px;
       border: 1px solid var(--border);
       color: var(--text);
       text-align: left;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      box-shadow: var(--shadow);
     }
     #output { white-space: pre-wrap; }
     .instructions { display: none; margin-bottom: 1rem; }
     .instructions.show { display: block; }
     .step-instructions {
-      background: #e7f1ff;
-      border-left: 4px solid var(--primary);
+      background: linear-gradient(90deg, rgba(15,98,254,0.14), rgba(15,98,254,0.05));
+      border-left: 5px solid var(--primary);
       padding: 1rem 1.25rem;
-      border-radius: 0;
-      color: #084298;
+      border-radius: 12px;
+      color: var(--text);
       margin-bottom: 1rem;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.25);
+    }
+    .utility-bar {
+      position: fixed;
+      top: 1rem;
+      right: 1rem;
+      display: flex;
+      gap: 0.75rem;
+      z-index: 101;
+    }
+    .field-actions {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      align-items: center;
+      margin-top: 0.35rem;
     }
     .tag-container { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.5rem; }
     .tag { background: var(--primary); color: white; padding: 0.35rem 0.65rem; border-radius: 0; display: flex; align-items: center; border: 1px solid rgba(255,255,255,0.4); }
@@ -229,10 +307,11 @@
     alt="Logo"
     style="position: absolute; top: 1rem; left: 1rem; width: 15.8vw; height: auto; max-width: 432px; max-height: 120px; z-index: 100;"
   >
-  <button 
-  id="newUpdateBtn" 
-  style="position: fixed; top: 1rem; right: 1rem; z-index: 101;">New Update</button>
-  
+  <div class="utility-bar">
+    <button type="button" id="themeToggle" class="ghost-btn" aria-pressed="false">Switch to Anduril Ops</button>
+    <button type="button" id="newUpdateBtn">New Update</button>
+  </div>
+
     <h1>
         Sanctions Update Generator
         <img
@@ -246,6 +325,7 @@
       <div class="step-instructions">Pick the date of the sanctions statement. Use the "Today" button to fill in today's date, then click Next.</div>
       <label for="mainDate">Statement Date</label>
       <input type="date" id="mainDate"> <button type="button" onclick="setToday('mainDate')">Today</button>
+      <div class="error-message" id="dateError" aria-live="polite"></div>
       <div class="nav">
         <button type="button" class="next">Next</button>
       </div>
@@ -304,6 +384,10 @@
 
       </select>
       <div class="tag-container" id="regimeTags"></div>
+      <div class="field-actions">
+        <button type="button" id="clearRegimesBtn" class="ghost-btn">Clear regimes</button>
+      </div>
+      <div class="error-message" id="regimeError" aria-live="polite"></div>
       <div class="nav">
         <button type="button" class="back">Back</button>
         <button type="button" class="next">Next</button>
@@ -329,6 +413,9 @@
           <span class="toggle-label">UNSC</span>
           <input type="date" id="date-UNSC" class="type-date" style="display:none;">
         </label>
+      </div>
+      <div class="field-actions">
+        <button type="button" id="syncTypeDates" class="ghost-btn">Match type dates to statement date</button>
       </div>
       <div class="nav">
         <button type="button" class="back">Back</button>
@@ -366,19 +453,120 @@
     </form>
 <!-- Below are the 3 sanction types, you can update the selectable array there -->
 <script>
-function setToday(id){ const t=new Date().toISOString().split('T')[0]; document.getElementById(id).value=t; }
-function toggleDateInput(cb){
+const dateInput = document.getElementById('mainDate');
+const dateError = document.getElementById('dateError');
+const regimeError = document.getElementById('regimeError');
+const regimeSelect = document.getElementById('regimeSelect');
+const regimeTags = document.getElementById('regimeTags');
+const clearRegimesBtn = document.getElementById('clearRegimesBtn');
+const syncTypeDatesBtn = document.getElementById('syncTypeDates');
+const themeToggle = document.getElementById('themeToggle');
+const bodyEl = document.body;
+let regimes = [];
+
+function applyTheme(theme) {
+  const resolved = theme === 'anduril' ? 'anduril' : 'ibm';
+  bodyEl.dataset.theme = resolved;
+  themeToggle.textContent = resolved === 'anduril' ? 'Switch to IBM Classic' : 'Switch to Anduril Ops';
+  themeToggle.setAttribute('aria-pressed', resolved === 'anduril');
+  localStorage.setItem('sb-theme', resolved);
+}
+applyTheme(localStorage.getItem('sb-theme'));
+themeToggle.addEventListener('click', () => {
+  applyTheme(bodyEl.dataset.theme === 'anduril' ? 'ibm' : 'anduril');
+});
+
+function setErrorState(field, errorEl, message) {
+  if (message) {
+    errorEl.textContent = message;
+    errorEl.classList.add('error-visible');
+    field.classList.add('invalid-field');
+  } else {
+    errorEl.textContent = '';
+    errorEl.classList.remove('error-visible');
+    field.classList.remove('invalid-field');
+  }
+}
+
+function setToday(id) {
+  const t = new Date().toISOString().split('T')[0];
+  document.getElementById(id).value = t;
+}
+
+function validateDateField() {
+  const hasDate = Boolean(dateInput.value);
+  setErrorState(dateInput, dateError, hasDate ? '' : 'Please choose a statement date before continuing.');
+  if (!hasDate) dateInput.focus();
+  return hasDate;
+}
+
+function toggleDateInput(cb) {
   const id = 'date-' + cb.value;
   const d = document.getElementById(id);
-  if(cb.checked){
+  if (cb.checked) {
     d.style.display = 'inline-block';
-    if(!d.value) setToday(id);
+    if (!d.value) setToday(id);
   } else {
     d.style.display = 'none';
   }
 }
-const regimeSelect=document.getElementById('regimeSelect'); const regimeTags=document.getElementById('regimeTags'); let regimes=[];
-regimeSelect.addEventListener('change',()=>{const v=regimeSelect.value;if(v&&!regimes.includes(v)){regimes.push(v);const tag=document.createElement('div');tag.className='tag';tag.textContent=v;const x=document.createElement('button');x.textContent='×';x.onclick=()=>{regimes=regimes.filter(r=>r!==v);regimeTags.removeChild(tag);};tag.appendChild(x);regimeTags.appendChild(tag);} regimeSelect.selectedIndex=0;});
+
+function syncTypeDatesToStatement() {
+  if (!dateInput.value) {
+    setErrorState(dateInput, dateError, 'Set a statement date to sync type dates.');
+    dateInput.focus();
+    return;
+  }
+
+  document.querySelectorAll('.checkbox-group input[name="type"]:checked').forEach(cb => {
+    const d = document.getElementById('date-' + cb.value);
+    if (d) {
+      d.style.display = 'inline-block';
+      d.value = dateInput.value;
+    }
+  });
+  setErrorState(dateInput, dateError, '');
+}
+
+function validateRegimeField() {
+  const hasRegime = regimes.length > 0;
+  setErrorState(regimeSelect, regimeError, hasRegime ? '' : 'Select at least one regime to proceed.');
+  if (!hasRegime) regimeSelect.focus();
+  return hasRegime;
+}
+
+function clearRegimes() {
+  regimes = [];
+  regimeTags.innerHTML = '';
+  validateRegimeField();
+}
+
+regimeSelect.addEventListener('change', () => {
+  const v = regimeSelect.value;
+  if (v && !regimes.includes(v)) {
+    regimes.push(v);
+    const tag = document.createElement('div');
+    tag.className = 'tag';
+    tag.textContent = v;
+    const x = document.createElement('button');
+    x.textContent = '×';
+    x.onclick = () => {
+      regimes = regimes.filter(r => r !== v);
+      regimeTags.removeChild(tag);
+      validateRegimeField();
+    };
+    tag.appendChild(x);
+    regimeTags.appendChild(tag);
+  }
+  regimeSelect.selectedIndex = 0;
+  validateRegimeField();
+});
+
+clearRegimesBtn.addEventListener('click', clearRegimes);
+
+dateInput.addEventListener('input', validateDateField);
+syncTypeDatesBtn.addEventListener('click', syncTypeDatesToStatement);
+
 function gb(d){return d?new Date(d).toLocaleDateString('en-GB',{day:'2-digit',month:'long',year:'numeric'}):'[No Date]';}
 
 document.getElementById('sanctionsForm').addEventListener('submit',e=>{
@@ -13675,8 +13863,8 @@ function showStep(i){
   document.getElementById('sanctionsForm').classList.toggle('review', i === steps.length - 1);
 }
 function validateStep(i){
-  if(i===0) return document.getElementById('mainDate').value;
-  if(i===1) return regimes.length>0;
+  if(i===0) return validateDateField();
+  if(i===1) return validateRegimeField();
   return true;
 }
 document.querySelectorAll('.next').forEach(btn=>{
