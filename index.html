@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="color-scheme" content="light dark" />
+  <title>ScntBstr</title>
+  <style>
+    :root{
+      --bg: #0b0d10;
+      --panel: #12161c;
+      --text: #e8eef6;
+      --muted: #9fb0c3;
+      --border: rgba(255,255,255,0.10);
+      --btn: rgba(255,255,255,0.06);
+      --btnHover: rgba(255,255,255,0.10);
+      --btnActive: rgba(255,255,255,0.16);
+      --shadow: 0 10px 30px rgba(0,0,0,0.35);
+    }
+
+    @media (prefers-color-scheme: light){
+      :root{
+        --bg:#f6f8fb;
+        --panel:#ffffff;
+        --text:#0d1520;
+        --muted:#4b6075;
+        --border: rgba(0,0,0,0.10);
+        --btn: rgba(0,0,0,0.04);
+        --btnHover: rgba(0,0,0,0.07);
+        --btnActive: rgba(0,0,0,0.11);
+        --shadow: 0 10px 30px rgba(0,0,0,0.12);
+      }
+    }
+
+    *{ box-sizing:border-box; }
+    html, body{ height:100%; }
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    .app{
+      height:100%;
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+      padding:12px;
+    }
+
+    header{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      padding:12px 14px;
+      background: var(--panel);
+      border:1px solid var(--border);
+      border-radius:14px;
+      box-shadow: var(--shadow);
+    }
+
+    .brand{
+      display:flex;
+      flex-direction:column;
+      gap:4px;
+      min-width: 220px;
+    }
+
+    .brand .title{
+      font-weight:700;
+      letter-spacing:0.2px;
+      line-height:1.1;
+    }
+
+    .brand .subtitle{
+      font-size:12px;
+      color: var(--muted);
+      line-height:1.1;
+    }
+
+    nav{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      align-items:center;
+      justify-content:flex-end;
+    }
+
+    .btn{
+      appearance:none;
+      border:1px solid var(--border);
+      background: var(--btn);
+      color: var(--text);
+      padding:10px 12px;
+      border-radius:12px;
+      cursor:pointer;
+      font-weight:600;
+      font-size:13px;
+      transition: transform 0.03s ease, background 0.15s ease, border-color 0.15s ease;
+      display:flex;
+      align-items:center;
+      gap:8px;
+      user-select:none;
+      text-decoration:none;
+    }
+    .btn:hover{ background: var(--btnHover); }
+    .btn:active{ transform: translateY(1px); }
+    .btn.active{
+      background: var(--btnActive);
+      border-color: rgba(255,255,255,0.22);
+    }
+    @media (prefers-color-scheme: light){
+      .btn.active{ border-color: rgba(0,0,0,0.18); }
+    }
+
+    .pill{
+      font-size:11px;
+      padding:2px 8px;
+      border-radius:999px;
+      border:1px solid var(--border);
+      color: var(--muted);
+    }
+
+    main{
+      flex:1;
+      min-height: 0;
+      background: var(--panel);
+      border:1px solid var(--border);
+      border-radius:14px;
+      overflow:hidden;
+      box-shadow: var(--shadow);
+      position:relative;
+    }
+
+    iframe{
+      width:100%;
+      height:100%;
+      border:0;
+      display:block;
+      background: transparent;
+    }
+
+    .fallback{
+      position:absolute;
+      inset:0;
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding:18px;
+      text-align:center;
+    }
+    .fallback .card{
+      max-width: 720px;
+      width: 100%;
+      border:1px solid var(--border);
+      background: var(--btn);
+      border-radius:14px;
+      padding:16px;
+    }
+    .fallback h2{
+      margin:0 0 6px 0;
+      font-size:16px;
+    }
+    .fallback p{
+      margin:0 0 12px 0;
+      color: var(--muted);
+      font-size:13px;
+      line-height:1.35;
+    }
+    .fallback .row{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      justify-content:center;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="app">
+    <header>
+      <div class="brand">
+        <div class="title">ScntBstr</div>
+        <div class="subtitle">Launcher for the two tools in this repo (GitHub Pages friendly)</div>
+      </div>
+
+      <nav>
+        <button class="btn" id="btn-bustr" type="button" data-tool="bustr">
+          sanctionsbustr
+          <span class="pill">tool</span>
+        </button>
+
+        <button class="btn" id="btn-updater" type="button" data-tool="updater">
+          Sanctions Tool Updater
+          <span class="pill">tool</span>
+        </button>
+
+        <a class="btn" id="btn-newtab" href="#" target="_blank" rel="noopener noreferrer">
+          open in new tab
+          <span class="pill">↗</span>
+        </a>
+      </nav>
+    </header>
+
+    <main>
+      <iframe id="toolFrame" title="ScntBstr tool"></iframe>
+
+      <div class="fallback" id="fallback">
+        <div class="card">
+          <h2>Tool did not load in the embedded view</h2>
+          <p>
+            Some browsers block embedded pages depending on their headers. Use the buttons below to open the tool directly.
+          </p>
+          <div class="row">
+            <a class="btn" id="fallback-bustr" href="sanctionsbustr.html" target="_blank" rel="noopener noreferrer">open sanctionsbustr</a>
+            <a class="btn" id="fallback-updater" href="Sanctions%20Tool%20Updater.html" target="_blank" rel="noopener noreferrer">open updater</a>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    (function(){
+      // Keep the original filenames untouched
+      const TOOL_MAP = {
+        bustr: "sanctionsbustr.html",
+        updater: "Sanctions%20Tool%20Updater.html"
+      };
+
+      const frame = document.getElementById("toolFrame");
+      const fallback = document.getElementById("fallback");
+
+      const btnBustr = document.getElementById("btn-bustr");
+      const btnUpdater = document.getElementById("btn-updater");
+      const btnNewTab = document.getElementById("btn-newtab");
+
+      function setActive(toolKey){
+        btnBustr.classList.toggle("active", toolKey === "bustr");
+        btnUpdater.classList.toggle("active", toolKey === "updater");
+      }
+
+      function setNewTabHref(toolKey){
+        const path = TOOL_MAP[toolKey] || TOOL_MAP.bustr;
+        btnNewTab.href = path;
+      }
+
+      function loadTool(toolKey, pushState){
+        const path = TOOL_MAP[toolKey] || TOOL_MAP.bustr;
+
+        setActive(toolKey);
+        setNewTabHref(toolKey);
+
+        fallback.style.display = "none";
+        frame.src = path;
+
+        if(pushState){
+          const url = new URL(window.location.href);
+          url.searchParams.set("tool", toolKey);
+          history.pushState({ tool: toolKey }, "", url);
+        }
+      }
+
+      // If iframe fails to render (blocked by headers), show fallback UI.
+      // This is a simple heuristic: if it hasn't loaded in time, show fallback.
+      let loadTimer = null;
+      frame.addEventListener("load", function(){
+        if(loadTimer) clearTimeout(loadTimer);
+        loadTimer = setTimeout(function(){
+          // If the iframe loads but is blank, user can still open in new tab.
+          // We'll keep fallback hidden unless there is an actual navigation error.
+          fallback.style.display = "none";
+        }, 50);
+      });
+
+      function scheduleFallback(){
+        if(loadTimer) clearTimeout(loadTimer);
+        loadTimer = setTimeout(function(){
+          fallback.style.display = "flex";
+        }, 2500);
+      }
+
+      btnBustr.addEventListener("click", function(){ loadTool("bustr", true); scheduleFallback(); });
+      btnUpdater.addEventListener("click", function(){ loadTool("updater", true); scheduleFallback(); });
+
+      window.addEventListener("popstate", function(ev){
+        const key = (ev.state && ev.state.tool) ? ev.state.tool : null;
+        loadTool(key || getInitialToolKey(), false);
+      });
+
+      function getInitialToolKey(){
+        const params = new URLSearchParams(window.location.search);
+        const requested = (params.get("tool") || "").toLowerCase().trim();
+        if(requested === "updater") return "updater";
+        return "bustr";
+      }
+
+      // Initial load
+      loadTool(getInitialToolKey(), false);
+      scheduleFallback();
+    })();
+  </script>
+</body>
+</html>
