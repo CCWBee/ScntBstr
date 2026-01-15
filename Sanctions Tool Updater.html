@@ -512,17 +512,18 @@
       });
 
       // Update advice boxes
-      adviceBoxes.forEach((adv, i) => {
-        const newHtml = markdownToHtml(adv.text);
-        let count = 0;
-        html = html.replace(
-          /(<div[^>]*class="step-instructions"[^>]*>)([\s\S]*?)(<\/div>)/gi,
-          (match, open, content, close) => {
-            if (count++ === i) return open + newHtml + close;
-            return match;
+      let count = 0;
+      html = html.replace(
+        /(<div[^>]*class="[^"]*step-instructions[^"]*"[^>]*>)([\s\S]*?)(<\/div>)/gi,
+        (match, open, content, close) => {
+          if (count < adviceBoxes.length) {
+            const newHtml = markdownToHtml(adviceBoxes[count].text);
+            count += 1;
+            return open + newHtml + close;
           }
-        );
-      });
+          return match;
+        }
+      );
 
       return html;
     }
