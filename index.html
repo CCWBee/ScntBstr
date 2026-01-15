@@ -5,12 +5,17 @@
   <title>Sanctions Bustr</title>
   <style>
     :root {
-      --primary: #4a90e2;
-      --background: #f1f3f5;
+      --primary: #2f6fe4;
+      --primary-hover: #2762cf;
+      --background: #eef2f7;
       --surface: #ffffff;
-      --border: #d0d7de;
-      --text: #212529;
-      --primary-border: #b6d4fe;
+      --border: #d2d9e3;
+      --text: #1f2937;
+      --muted-text: #4b5563;
+      --primary-border: rgba(47, 111, 228, 0.28);
+      --focus-ring: 0 0 0 3px rgba(47, 111, 228, 0.28);
+      --shadow-soft: 0 1px 2px rgba(15, 23, 42, 0.08), 0 6px 16px rgba(15, 23, 42, 0.08);
+      --shadow-strong: 0 2px 4px rgba(15, 23, 42, 0.12), 0 14px 28px rgba(15, 23, 42, 0.12);
     }
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -18,12 +23,14 @@
       color: var(--text);
       padding: 2rem;
       text-align: center;
-      font-size: 1.125rem;
+      font-size: 1.075rem;
     }
     h1 {
       color: var(--primary);
       font-size: 2.25rem;
       margin-bottom: 1.5rem;
+      letter-spacing: -0.02em;
+      font-weight: 600;
     }
     form {
       background: var(--surface);
@@ -34,7 +41,7 @@
       margin: 0 auto;
       width: 100%;
       border: 2px solid var(--border);
-      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      box-shadow: var(--shadow-strong);
       position: relative;
       overflow-x: hidden;
       height: 25rem;
@@ -60,12 +67,13 @@
       position: absolute;
       inset: 0;
       opacity: 0;
-      transform: translateX(100%);
-      transition: transform 0.3s ease, opacity 0.3s ease;
+      transform: translateX(8%) scale(0.98);
+      transition: transform 0.35s ease, opacity 0.35s ease;
+      will-change: transform, opacity;
     }
     .step.active {
       opacity: 1;
-      transform: translateX(0);
+      transform: translateX(0) scale(1);
     }
     .nav {
       display: flex;
@@ -99,11 +107,23 @@
       height: 100%;
       width: 0;
       background: var(--primary);
-      transition: width 0.3s ease;
+      transition: width 0.35s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    #progressBar.is-active::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(110deg, rgba(255,255,255,0) 20%, rgba(255,255,255,0.55) 50%, rgba(255,255,255,0) 80%);
+      transform: translateX(-100%);
+      animation: shimmer 1.6s ease-in-out infinite;
     }
     label {
       display: block;
-      font-weight: 600;
+      font-weight: 500;
+      letter-spacing: 0.01em;
+      color: var(--muted-text);
     }
     input,
     select {
@@ -113,11 +133,11 @@
       font-size: 1rem;
       width: 100%;
     }
-    input:focus,
-    select:focus {
+    input:focus-visible,
+    select:focus-visible {
       outline: none;
       border-color: var(--primary);
-      box-shadow: 0 0 0 2px var(--primary-border);
+      box-shadow: var(--focus-ring);
     }
     input[type="date"] { width: auto; }
     .checkbox-group {
@@ -141,6 +161,10 @@
       cursor: pointer;
       transition: background 0.3s, border-color 0.3s;
       border: 1px solid #9aa3ad;
+    }
+    .checkbox-group input[type="checkbox"]:focus-visible {
+      outline: none;
+      box-shadow: var(--focus-ring);
     }
     .checkbox-group input[type="checkbox"]::before {
       content: "";
@@ -180,14 +204,22 @@
       border-radius: 0;
       font-size: 1rem;
       cursor: pointer;
-      transition: background 0.3s, box-shadow 0.3s;
+      transition: background 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
       width: auto;
       display: inline-block;
-      box-shadow: 0 2px 0 rgba(0,0,0,0.1);
+      box-shadow: 0 1px 0 rgba(15, 23, 42, 0.2), 0 8px 12px rgba(15, 23, 42, 0.12);
     }
     button:hover {
-      background: #347dcf;
-      box-shadow: 0 3px 0 rgba(0,0,0,0.14);
+      background: var(--primary-hover);
+      box-shadow: 0 2px 0 rgba(15, 23, 42, 0.2), 0 10px 16px rgba(15, 23, 42, 0.18);
+      transform: translateY(-1px) scale(1.01);
+    }
+    button:active {
+      transform: translateY(0) scale(0.99);
+    }
+    button:focus-visible {
+      outline: none;
+      box-shadow: var(--focus-ring), 0 2px 0 rgba(15, 23, 42, 0.2), 0 10px 16px rgba(15, 23, 42, 0.16);
     }
     button[type="submit"],
     #downloadDocxBtn {
@@ -204,7 +236,7 @@
       border: 1px solid var(--border);
       color: var(--text);
       text-align: left;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      box-shadow: var(--shadow-soft);
     }
     #output { white-space: pre-wrap; }
     .instructions { display: none; margin-bottom: 1rem; }
@@ -216,10 +248,38 @@
       border-radius: 0;
       color: #084298;
       margin-bottom: 1rem;
+      box-shadow: var(--shadow-soft);
     }
     .tag-container { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.5rem; }
-    .tag { background: var(--primary); color: white; padding: 0.35rem 0.65rem; border-radius: 0; display: flex; align-items: center; border: 1px solid rgba(255,255,255,0.4); }
+    .tag {
+      background: var(--primary);
+      color: white;
+      padding: 0.35rem 0.65rem;
+      border-radius: 0;
+      display: flex;
+      align-items: center;
+      border: 1px solid rgba(255,255,255,0.4);
+      box-shadow: 0 1px 0 rgba(15, 23, 42, 0.12), 0 6px 10px rgba(15, 23, 42, 0.12);
+    }
+    .tag.tag-enter {
+      animation: tag-pop 0.28s ease-out;
+    }
     .tag button { background: none; border: none; color: white; margin-left: 0.5rem; cursor: pointer; padding: 0; box-shadow: none; }
+    @keyframes shimmer {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(100%); }
+    }
+    @keyframes tag-pop {
+      0% { transform: scale(0.96); opacity: 0.6; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
   </style>
     <link rel="icon" type="image/png" href="data:image/png;base64,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" />
 </head>
@@ -378,7 +438,22 @@ function toggleDateInput(cb){
   }
 }
 const regimeSelect=document.getElementById('regimeSelect'); const regimeTags=document.getElementById('regimeTags'); let regimes=[];
-regimeSelect.addEventListener('change',()=>{const v=regimeSelect.value;if(v&&!regimes.includes(v)){regimes.push(v);const tag=document.createElement('div');tag.className='tag';tag.textContent=v;const x=document.createElement('button');x.textContent='×';x.onclick=()=>{regimes=regimes.filter(r=>r!==v);regimeTags.removeChild(tag);};tag.appendChild(x);regimeTags.appendChild(tag);} regimeSelect.selectedIndex=0;});
+regimeSelect.addEventListener('change',()=>{
+  const v=regimeSelect.value;
+  if(v&&!regimes.includes(v)){
+    regimes.push(v);
+    const tag=document.createElement('div');
+    tag.className='tag tag-enter';
+    tag.textContent=v;
+    const x=document.createElement('button');
+    x.textContent='×';
+    x.onclick=()=>{regimes=regimes.filter(r=>r!==v);regimeTags.removeChild(tag);};
+    tag.appendChild(x);
+    tag.addEventListener('animationend',()=>tag.classList.remove('tag-enter'),{once:true});
+    regimeTags.appendChild(tag);
+  }
+  regimeSelect.selectedIndex=0;
+});
 function gb(d){return d?new Date(d).toLocaleDateString('en-GB',{day:'2-digit',month:'long',year:'numeric'}):'[No Date]';}
 
 document.getElementById('sanctionsForm').addEventListener('submit',e=>{
@@ -13672,6 +13747,7 @@ const progressBar = document.getElementById('progressBar');
 function showStep(i){
   steps.forEach((s,idx)=>s.classList.toggle('active', idx===i));
   progressBar.style.width = ((i+1)/steps.length)*100 + '%';
+  progressBar.classList.toggle('is-active', i > 0);
   document.getElementById('sanctionsForm').classList.toggle('review', i === steps.length - 1);
 }
 function validateStep(i){
